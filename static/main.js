@@ -10,10 +10,10 @@ function register() {
     }
     let password = $('#password').val(); // Mengambil nilai dari input password
     if (!password) {
-        showNotification('Please enter your password');
+       alertify.warning('Please enter your password');
         return;
     } else if (password.length < 8) {
-        showNotification('Password must be at least 8 characters long', 'error');
+        alertify.warning('Password must be at least 8 characters long', 'error');
         return;
     }
 
@@ -211,10 +211,11 @@ function update_event(eventId) {
         contentType: false,
         success: function (response) {
             if (response['result'] === 'success') {
-                toastr['success'](response['msg'])
-                setTimeout(function() {
+                alertify.set('notifier', 'position', 'top-right');
+                alertify.success(response['msg'])
+                setTimeout(function () {
                     window.location.reload();
-                }, 3000); 
+                }, 2000);
             }
             console.log(response);
         },
@@ -288,3 +289,5 @@ function showModal(btn) {
     let modal = new bootstrap.Modal(document.getElementById('modal'));
     modal.show();
 }
+
+

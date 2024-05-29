@@ -7,9 +7,9 @@
     <title>Admin | Past Event</title>
 
 
-      <!-- ICON  -->
-  <link rel="shortcut icon" href="{{ url_for('static', filename='image/logo-top.png') }}" type="image/x-icon">
-  <link rel="icon" href="{{ url_for('static', filename='image/logo-top.png') }}" type="image/x-icon">
+    <!-- ICON  -->
+    <link rel="shortcut icon" href="{{ url_for('static', filename='image/logo-top.png') }}" type="image/x-icon">
+    <link rel="icon" href="{{ url_for('static', filename='image/logo-top.png') }}" type="image/x-icon">
 
 
 
@@ -27,12 +27,34 @@
     <link rel="stylesheet" href="../static/sidebar.css">
     <link rel="stylesheet" href="../static/inti.css">
     <link rel="stylesheet" href="../static/event.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs/build/css/alertify.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/alertifyjs/build/alertify.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <!-- JavaScript -->
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/alertify.min.js"></script>
+    <!-- CSS -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/alertify.min.css" />
+    <!-- Default theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/default.min.css" />
+    <!-- Semantic UI theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/semantic.min.css" />
+    <!-- Bootstrap theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/bootstrap.min.css" />
 </head>
 <script>
     function confirmDel(title) {
-        if (confirm("Are you sure you want to delete all event?")) {
-            deleteEvent(title);
-        }
+        alertify.confirm('Confirm Delete Event',
+            'Are you sure you want to delete this event?',
+            function () {
+                deleteEvent(title);
+            },
+            function () {
+                // User clicked 'cancel', no action needed
+            }
+        ).set('transition', 'zoom').set('closable', true);
     }
     function deleteEvent(title) {
         fetch('/past-event/delete', {
@@ -44,21 +66,30 @@
         })
             .then(response => {
                 if (response.ok) {
-                    alert("Event deleted successfully");
+                    alertify.set('notifier', 'position', 'top-right');
+                    alertify.success("Event deleted successfully");
                     window.location.reload();
                 } else {
-                    alert("Failed to delete event ");
+                    alertify.set('notifier', 'position', 'top-right');
+                    alertify.error("Failed to delete event");
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert("An error occurred while deleting the event");
+                alertify.set('notifier', 'position', 'top-right');
+                alertify.error("An error occurred while deleting the event");
             });
     }
     function confirmDelAll() {
-        if (confirm("Are you sure you want to delete all files?")) {
-            deleteAll();
-        }
+        alertify.confirm('Confirm Delete Event',
+            'Are you sure you want to delete all files?',
+            function () {
+                deleteAll();
+            },
+            function () {
+                // User clicked 'cancel', no action needed
+            }
+        ).set('transition', 'zoom').set('closable', true);
     }
     function deleteAll() {
         $.ajax({
@@ -66,19 +97,21 @@
             type: 'POST',
             contentType: 'application/json',
             success: function (data) {
-                alert(data.message);
+                alertify.set('notifier', 'position', 'top-right');
+                alertify.success(data.message);
                 window.location.reload();
             },
             error: function (xhr, textStatus, errorThrown) {
                 console.error('Error:', errorThrown);
-                alert("An error occurred while deleting events");
+                alertify.set('notifier', 'position', 'top-right');
+                alertify.error("An error occurred while deleting the event");
             }
         })
     }
 
     function toggleColor(btn) {
-            btn.classList.toggle("clicked");
-        }
+        btn.classList.toggle("clicked");
+    }
 
 
 </script>
@@ -93,6 +126,11 @@
         text-decoration: none;
         color: white;
     }
+
+    /* .alertify .ajs-dialog .ajs-body .ajs-content {
+        background-color: #000000;
+        color: #000000;
+    } */
 </style>
 
 <body>
@@ -103,11 +141,11 @@
                     <img src="../static/image/logo.png" alt="Logo" style="max-width: 75px;">
                 </div>
                 <div class="menu">
-                    <li  onclick="toggleColor(this)">
+                    <li onclick="toggleColor(this)">
                         <i class="bi bi-calendar4-event"></i>
                         <span onclick="window.location.href='/admin'">Event</span>
                     </li>
-                    <li  onclick="toggleColor(this)">
+                    <li onclick="toggleColor(this)">
                         <i class="bi bi-image"></i>
                         <span onclick="window.location.href='/admin/gallery'">Gallery</span>
                     </li>
@@ -120,10 +158,11 @@
         </div>
         <div class="body" style="width: 900px;">
             <div class="section">
-                <button type="button" class="btn btn-light" style="border: 2px solid var(--primary-color);" onclick="window.location.href='/admin'"><i
-                        class="bi bi-plus-circle"></i> New Event</button>
-                <button type="button" class="btn btn-light" style="border: 2px solid var(--primary-color);" onclick="window.location.href='/upcoming_event'"><i class="bi bi-calendar"></i>
-                        Upcoming</button>
+                <button type="button" class="btn btn-light" style="border: 2px solid var(--primary-color);"
+                    onclick="window.location.href='/admin'"><i class="bi bi-plus-circle"></i> New Event</button>
+                <button type="button" class="btn btn-light" style="border: 2px solid var(--primary-color);"
+                    onclick="window.location.href='/upcoming_event'"><i class="bi bi-calendar"></i>
+                    Upcoming</button>
                 <button type="button" class="btn btn-dark" onclick="window.location.href='/past_event'"><i
                         class="bi bi-calendar-check"></i> Past Event</button>
             </div>

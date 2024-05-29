@@ -23,6 +23,8 @@
   <link rel="stylesheet" href="../static/style.css">
   <script src="../static/main.js"></script>
   <link rel="stylesheet" href="../static/profile.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs/build/css/alertify.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/alertifyjs/build/alertify.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- JavaScript -->
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/alertify.min.js"></script>
@@ -35,10 +37,13 @@
     <!-- Bootstrap theme -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/bootstrap.min.css" />
 
-
-
-
 </head>
+<style>
+  .alertify-notifier .ajs-message.ajs-success {
+      background-color: #000000; /* Background hitam */
+      color: #FFFFFF; /* Warna teks putih agar kontras */
+  }
+</style>
 
 <script>
   const exampleModal = document.getElementById('exampleModal')
